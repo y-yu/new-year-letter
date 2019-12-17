@@ -29,7 +29,7 @@ before_install:
 
 install:
   - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
-  - docker-compose pull
+  - docker pull yyupw/letter-pdf:latest
   - docker-compose build
 
 script:
