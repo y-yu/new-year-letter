@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+  letter-compile:
+    image: yyupw/letter-pdf:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - yyupw/letter-pdf:latest
+    volumes:
+      - .:/workdir
