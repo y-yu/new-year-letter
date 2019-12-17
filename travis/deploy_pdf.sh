@@ -12,7 +12,7 @@ if [[ "${TRAVIS_OS_NAME}" == "linux" && "${TRAVIS_BRANCH}" == "master" && "${TRA
   git fetch origin gh-pages:gh-pages
   git stash -u
   git checkout gh-pages
-  rm book.pdf
+  rm letter.pdf
   git stash pop
   git add letter.pdf
   git commit -a -m "auto commit on travis $TRAVIS_JOB_NUMBER $TRAVIS_COMMIT"

@@ -1,6 +1,8 @@
 年賀状
 =====================
 
+[![Build Status](https://travis-ci.org/y-yu/new-year-letter.svg?branch=master)](https://travis-ci.org/y-yu/new-year-letter)
+
 ## Sample artifact
 
 - https://y-yu.github.io/new-year-letter/letter.pdf
