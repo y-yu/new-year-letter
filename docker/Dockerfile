@@ -55,7 +55,7 @@ RUN apk add --no-cache --virtual .texlive-deps $TEXLIVE_DEPS && \
     /tmp/install-tl-unx/install-tl \
       -profile /tmp/install-tl-unx/texlive.profile && \
     tlmgr install latexmk collection-langjapanese xstring  \
-      collection-fontsrecommended bxjalipsum letltxmacro && \
+      collection-fontsrecommended letltxmacro && \
     rm -rf /tmp/install-tl-unx && \
     apk del .texlive-deps
 
