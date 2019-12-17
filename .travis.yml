@@ -1,6 +1,9 @@
+os: linux
+
 dist: bionic
+
 language: generic
-sudo: required
+
 env:
   global:
     - IMAGE_NAME=yyupw/letter-pdf
@@ -8,11 +11,14 @@ env:
     - DOCKER_COMPOSE_VERSION=1.25.0
     - secure: "Ol4EQMiF/OcbuGS5Ws9cH3IoPSZAwT+2BZEFuNgu91MhiDbSdm3+fl46gmp2SyL4/nn8VZNzHc4CDs9tvpuG38KOTSoozTDjLqmTA16eoB4xp8h3kPpZFqr2MmpGpJmdgYVaRSfSEbisEvIn05rdzxWQw4hImpayKKAwMQ9Z9IMxquATYR8QIU6VLCeRJNWZT/vYOQcKKXlNBcrXBGgegWBJX8RoZQv5yAF9odUA5rLBFyYdK9+43zge/ePdEBPu8a5Iqc6EEoRJ99jR7/EkR1OEhTjdazdMiRlbmOYCGNf7fPOnSTJWGHuIyFSJrmGq4KCYYV7FL+CUmLN/Xkf0SiqyZbRClwrWl9vkeKMGzXteWtfgQ7tH9iZn1NEBSHiehefQqjFyROKibGZvLTTZ/AbcSpWMlwCMedrwuWfhNi53BK9bZC/Uj+PXH2XkIsBd8jSiU/Nsy+LMQTE6U6HlpxCg3+/uzjJFEa+4pxWvUamMjx3bIrF2cApP+9ZaEoCtS2VBxAZNwImRoHst8FSW54IOgeqCeBxV3oZvVzoOnz2DE9CNsGS85vUn1Ixpg7Y24uBmOb4yqPNtHlhueYZMGpp4mxLyQnrB30DxeWJhfQlNzax77O4zuSPiPl2I719WW91j/xVQpt+rlefESQMCe+Rs4UzGWKp0aVFbxwaPJNQ="
     - secure: "kFTmV+zKZeBhM5EqyFic9UOtt5zjUalk95p94QQBCk1darOwPC4uMrXm2qISv9XHtLhQKDMHNEKKnZW9UyGgCvFYsop2sYfscGWAO59Pz/oZ2bUDzMCd8xq20K4jtt+ZYtB4Z8A2MPJ9RDqKKhfJYgWn/YGrL/AiCI5uu2xTtFGaNdvvcwTyusBlEipThfFzr5CACjtNf1BLiLQgsbkrRrqKyA73qxeofFwASbGTQVi7xaZH9VAlF84cYIjdCTC0X9aqSCxXVX9lT6YYTCGOsEIMubsj0Ws7tyZzqKPB9ba+6gO8QgSpz3UW2euo6zwY3rR4hGqVIFz2oa2+1Io7j7DyczNCDITmWgsMWKesyk84iIFHjip2pq1+qPVIChqpobBbjS+9unbzWsdz8ErqABQMQp/1lni4V3I8Sqhj2UlD5b5jw0K4avv63ap6XUtRIkB7iv+PsLNLUpXSeyTI2OBlgV4T65wd60RtLBzsFoRM4fhfaBCD//Oy1OpUbrFB3DXWi7w0+YljDVMutKXFPIN7ruyWqA52I1PAWpMcxmM1XQTj2rbdbDKbpWrkWEcSQNd7I4+0MuIsKIpx3YfwHsfzOhALV1OcL5DLNcxX1QLyOtpAOam8G6AMBVARzI/xM0DrhVt0hQFaB8C+COEFgkGkL2MsFJWZcwVH2tb7VNU="
+
 services:
   - docker
+
 branches:
   only:
     - master
+
 before_install:
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
@@ -20,13 +26,18 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+
 install:
+  - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker-compose pull
   - docker-compose build
+
 script:
-  - docker-compose up --exit-code-from letter-compile
+  - docker-compose up --abort-on-container-exit
+
 after_success:
   - ./travis/deploy_image.sh
   - ./travis/deploy_pdf.sh
+
 after_failure:
   - cat letter.log
