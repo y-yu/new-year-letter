@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
 LABEL maintainer="yyu <yyu [at] mental.poker>"
 
@@ -29,17 +29,12 @@ ENV PERSISTENT_DEPS \
     git \
     ca-certificates
 
-ENV PATH $TEXLIVE_PATH/bin/x86_64-linux:/bin:$PATH
+ENV PATH $TEXLIVE_PATH/bin/x86_64-linuxmusl:/bin:$PATH
 
 RUN apk upgrade --update
 
 # Install basic dependencies
 RUN apk add --no-cache --virtual .persistent-deps $PERSISTENT_DEPS
-
-# Install glibc
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk && \
-    apk add glibc-2.30-r0.apk
 
 # Install TeXLive
 RUN apk add --no-cache --virtual .texlive-deps $TEXLIVE_DEPS && \
