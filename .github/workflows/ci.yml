@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: yyupw
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Get Docker image
+      run: docker-compose pull
+
+    - name: Build Docker image
+      run: docker-compose build
+
+    - name: PDF build
+      run: docker-compose up --abort-on-container-exit
+      
+    - name: Push Docker image
+      run: docker-compose push
+      if: ${{ github.ref == 'refs/heads/master' }}
+
+    - name: Push PDF file
+      uses: actions/upload-artifact@v2
+      with:
+        name: New year letter
+        path: letter.pdf
+      if: ${{ github.ref == 'refs/heads/master' }}

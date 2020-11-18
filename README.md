@@ -2,6 +2,7 @@
 =====================
 
 [![Build Status](https://travis-ci.org/y-yu/new-year-letter.svg?branch=master)](https://travis-ci.org/y-yu/new-year-letter)
+![CI](https://github.com/y-yu/new-year-letter/workflows/CI/badge.svg)
 
 ## Sample artifact
 
