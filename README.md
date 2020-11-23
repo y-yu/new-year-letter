@@ -6,7 +6,7 @@
 
 ## Sample artifact
 
-- https://y-yu.github.io/new-year-letter/letter.pdf
+- https://github.com/y-yu/new-year-letter/releases/latest/download/letter.pdf
 
 ## How to use
 
