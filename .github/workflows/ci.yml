@@ -1,8 +1,6 @@
 name: CI
 
-on:
-  pull_request:
-  push:
+on: [pull_request, push]
 
 jobs:
   build:
@@ -38,3 +36,25 @@ jobs:
         name: New year letter
         path: letter.pdf
       if: ${{ github.ref == 'refs/heads/master' }}
+
+  release:
+    name: Create release
+    if: github.ref == 'refs/heads/master'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: New year letter
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
