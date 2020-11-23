@@ -42,10 +42,17 @@ jobs:
     if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
+    env:
+      SHORTSHA: $(git rev-parse --short=8 ${{ github.sha }})
     steps:
+      - uses: actions/checkout@v2
+      
       - uses: actions/download-artifact@v2
         with:
           name: New year letter
+
+      - name: Set release tag as environment variable
+        run: echo "SHORT_SHA=$(git rev-parse --short=8 ${{ github.sha }})" >> $GITHUB_ENV
 
       - name: Create release
         id: create_release
@@ -53,7 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ env.SHORT_SHA }}
           release_name: Release ${{ github.ref }}
           body: ${{ github.event.head_commit.message }}
           draft: false
