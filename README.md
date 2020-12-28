@@ -1,12 +1,11 @@
 年賀状
 =====================
 
-[![Build Status](https://travis-ci.org/y-yu/new-year-letter.svg?branch=master)](https://travis-ci.org/y-yu/new-year-letter)
 ![CI](https://github.com/y-yu/new-year-letter/workflows/CI/badge.svg)
 
 ## Sample artifact
 
-- https://github.com/y-yu/new-year-letter/releases/latest/download/letter.pdf
+- https://y-yu.github.io/new-year-letter/letter.pdf
 
 ## How to use
 
